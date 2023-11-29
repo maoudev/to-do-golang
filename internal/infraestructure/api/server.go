@@ -3,18 +3,18 @@ package api
 import (
 	"fmt"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/gin-gonic/gin"
 	cors "github.com/itsjamie/gin-cors"
-	"github.com/maoudev/todo/internal/config"
 )
 
 func RunServer() {
 	server := gin.Default()
 
 	server.Use(cors.Middleware(cors.Config{
-		Origins:        "*",
+		Origins:        "to-do-golang-nspl-git-main-maou-boop.vercel.app",
 		Methods:        "GET, PUT, POST, DELETE",
 		RequestHeaders: "Origin, Authorization, Content-Type",
 		MaxAge:         50 * time.Second,
@@ -30,6 +30,6 @@ func RunServer() {
 
 	setupRoutes(server)
 
-	port := fmt.Sprintf(":%v", config.API_PORT)
+	port := fmt.Sprintf(":%v", os.Getenv("PORT"))
 	server.Run(port)
 }

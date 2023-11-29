@@ -4,10 +4,11 @@ import (
 	"errors"
 	"log/slog"
 	"net/mail"
+	"os"
+	"strconv"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
-	"github.com/maoudev/todo/internal/config"
 	"github.com/maoudev/todo/internal/pkg/domain"
 	"github.com/maoudev/todo/internal/pkg/ports"
 	"github.com/maoudev/todo/internal/pkg/utils"
@@ -81,11 +82,15 @@ func createToken(user *domain.User) (string, error) {
 
 	jwtToken := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
-	return jwtToken.SignedString([]byte(config.SECRET_KEY))
+	return jwtToken.SignedString([]byte(os.Getenv("SECRET_KEY")))
 }
 
 func hashPassword(password string) string {
-	hash, err := bcrypt.GenerateFromPassword([]byte(password), config.HASH_COST)
+	cost, err := strconv.Atoi(os.Getenv("HASH_COST"))
+	if err != nil {
+		return ""
+	}
+	hash, err := bcrypt.GenerateFromPassword([]byte(password), cost)
 	if err != nil {
 		slog.Error("Error when creating hash appears from the password entered")
 		return ""

@@ -2,8 +2,8 @@ package mysql
 
 import (
 	"log/slog"
+	"os"
 
-	"github.com/maoudev/todo/internal/config"
 	"github.com/maoudev/todo/internal/pkg/domain"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -20,7 +20,7 @@ var (
 
 func connect() *gorm.DB {
 	var err error
-	dsn := config.DSN
+	dsn := os.Getenv("DSN")
 
 	db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
