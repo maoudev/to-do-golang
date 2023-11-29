@@ -26,6 +26,8 @@ func RunServer() {
 		})
 	})
 
+	gin.SetMode(gin.ReleaseMode)
+
 	setupRoutes(server)
 
 	port := fmt.Sprintf(":%v", config.API_PORT)
