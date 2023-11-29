@@ -1,2 +1,4 @@
 .env
 cmd.exe
+.vercel
+vercel.json
