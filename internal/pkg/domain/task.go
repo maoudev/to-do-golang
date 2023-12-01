@@ -13,8 +13,8 @@ type Task struct {
 	Name        string `json:"name" gorm:"varchar:100" binding:"required"`
 	Description string `json:"description" gorm:"type:text"`
 
-	StartTime time.Time `json:"start_time"`
-	EndTime   time.Time `json:"end_time"`
+	StartTime time.Time `json:"start_time" gorm:"type:datetime"`
+	EndTime   time.Time `json:"end_time" gorm:"type:datetime"`
 
 	UserID uuid.UUID `json:"userID" gorm:"size:300"`
 

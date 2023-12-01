@@ -14,9 +14,9 @@ func RunServer() {
 	server := gin.Default()
 
 	server.Use(cors.Middleware(cors.Config{
-		Origins:        "to-do-golang-nspl-git-main-maou-boop.vercel.app",
-		Methods:        "GET, PUT, POST, DELETE",
-		RequestHeaders: "Origin, Authorization, Content-Type",
+		Origins:        "*",
+		Methods:        "GET, PUT, POST, DELETE, OPTIONS",
+		RequestHeaders: "Origin, Authorization, Content-Type, Options",
 		MaxAge:         50 * time.Second,
 	}))
 

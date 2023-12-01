@@ -27,8 +27,13 @@ func (c *client) First(dest interface{}, conds ...interface{}) error {
 
 func (c *client) GetUserTasks(userID uuid.UUID) ([]*domain.Task, error) {
 	tasks := []*domain.Task{}
-	err := c.db.Find(&tasks, "user_id = ?", userID).Order("start_time asc").Error
-	return tasks, err
+
+	result := c.db.Where("user_id = ?", userID.String()).Find(&tasks)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	return tasks, nil
 }
 
 func (c *client) ToggleStateTask(taskID uuid.UUID) error {

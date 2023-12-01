@@ -3,11 +3,11 @@ package middlewares
 import (
 	"log/slog"
 	"net/http"
+	"os"
 	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
-	"github.com/maoudev/todo/internal/config"
 )
 
 func Authenticate() gin.HandlerFunc {
@@ -36,7 +36,8 @@ func isTokenValid(token *jwt.Token) bool {
 
 func parseToken(token string) (*jwt.Token, error) {
 	jwtToken, err := jwt.Parse(token, func(t *jwt.Token) (interface{}, error) {
-		return []byte(config.SECRET_KEY), nil
+		secret_key := os.Getenv("SECRET_KEY")
+		return []byte(secret_key), nil
 	})
 
 	return jwtToken, err
