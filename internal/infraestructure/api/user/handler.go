@@ -51,3 +51,15 @@ func (u *userHandler) Login(c *gin.Context) {
 		"token": jwtToken,
 	})
 }
+
+func (u *userHandler) GetUser(c *gin.Context) {
+	userID := c.MustGet("userID").(string)
+
+	user, err := u.userService.GetUser(userID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, err)
+		return
+	}
+
+	c.JSON(http.StatusOK, user)
+}

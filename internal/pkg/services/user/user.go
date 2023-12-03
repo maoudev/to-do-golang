@@ -66,6 +66,21 @@ func (u *userService) Login(credentials *domain.DefaultCredentials) (string, err
 	return createToken(user)
 }
 
+func (u *userService) GetUser(userID string) (*domain.User, error) {
+	parsedID, err := utils.ParseUUID(userID)
+	if err != nil {
+		return nil, err
+	}
+
+	user := &domain.User{}
+
+	if err := u.repository.First(user, "id = ?", parsedID); err != nil {
+		return nil, err
+	}
+
+	return user, nil
+}
+
 func isPasswordValid(password string) bool {
 	return len(password) >= 8
 }

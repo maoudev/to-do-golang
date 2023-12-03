@@ -10,4 +10,5 @@ type UserRepository interface {
 type UserService interface {
 	Create(user *domain.User) error
 	Login(credentials *domain.DefaultCredentials) (string, error)
+	GetUser(userID string) (*domain.User, error)
 }
